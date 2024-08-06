@@ -61,15 +61,8 @@
                         </div>
                         <div class="modal-footer flex-lg-row border-top">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            <!-- button type="submit" class="btn btn-primary o_wait_lazy_js a-submit" disabled="" t-attf-id="#{event.id}">
-                                Register-2
-                                <t t-if="event.seats_limited and event.seats_max and event.seats_available &lt;= (event.seats_max * 0.2)">
-                                    (only <t t-out="event.seats_available"/> available)
-                                </t>
-                            </button -->
-                            
                             <button type="submit" class="btn btn-primary o_wait_lazy_js a-submit" disabled="" t-attf-id="#{event.id}">
-                                Register-3
+                                Register
                                 <t t-if="event.seats_limited and event.seats_max and event.seats_available &lt;= (event.seats_max * 0.2)">
                                     (only <t t-out="event.seats_available"/> available)
                                 </t>
@@ -101,9 +94,7 @@
                                             <t t-set="seats_max_ticket" t-value="(not tickets or not tickets.seats_limited or tickets.seats_available &gt; 9) and 10 or tickets.seats_available + 1"/>
                                             <t t-set="seats_max_event" t-value="(not event.seats_limited or event.seats_available &gt; 9) and 10 or event.seats_available + 1"/>
                                             <t t-set="seats_max" t-value="min(seats_max_ticket, seats_max_event) if tickets else seats_max_event"/>
-                                            <!-- t t-foreach="range(0, seats_max)" t-as="nb" -->
-                                            <t t-foreach="range(0, 2)" t-as="nb">
-
+                                            <t t-foreach="range(0, seats_max)" t-as="nb">
                                                 <option t-out="nb" t-att-selected="nb == 1 and 'selected'"/>
                                             </t>
                                         </select>
