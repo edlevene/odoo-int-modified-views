@@ -10,13 +10,12 @@
                 <t t-set="additionnal_classes" t-value="'h-100 w-100 bg-600 position-absolute'"/>
             </t>
 
-            <!-- figcaption class="text-center w-100 h-100 px-3 d-flex flex-column flex-grow-1" -->
             <figcaption class="text-center w-100 h-100 px-3 d-flex flex-column flex-grow-1">
                     <div t-if="is_sample" class="h5 o_ribbon_right bg-primary text-uppercase">Sample</div>
                 <!-- div class="s_events_event_title text-white" t-field="record.name"/ -->
                 <strong>
-                <div class="s_events_event_title text-black" t-field="record.name"/>
-                <time itemprop="startDate" t-att-datetime="record.date_begin" class="text-black bg-white">
+                <div class="s_events_event_title bg-600" t-field="record.name"/>
+                <time itemprop="startDate" t-att-datetime="record.date_begin" class="bg-600">
                     <span t-out="record.date_begin" t-options="{'widget': 'datetime', 'date_only': 'true', 'format': 'long', 'tz_name': record.date_tz}"/>
                     -
                     <span t-out="record.date_begin" t-options="{'widget': 'datetime', 'time_only': 'true', 'format': 'short', 'tz_name': record.date_tz}"/>
@@ -26,4 +25,5 @@
             </figcaption>
         </a>
     </figure>
+
 </t>

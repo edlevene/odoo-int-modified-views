@@ -1,0 +1,105 @@
+<t name="Event Description" track="1" t-name="website_event.event_description_full">
+    <t t-set="hide_submenu" t-value="True"/>
+    <t t-set="hide_register_cta" t-value="True"/>
+    <t t-call="website_event.event_details">
+        <section class="h-100" t-cache="event if not editable and event.website_published else None">
+            <div class="container overflow-hidden pb-5">
+                <div class="row h-100">
+                <div class="col pe-xxl-5">
+                    <t t-call="website_event.navbar"/>
+                    <!-- Show the button tickets only on mobile -->
+                    <div class="container d-lg-none">
+                        <t t-call="website_event.registration_template">
+                            <t t-set="toast_message" t-value=""/>
+                        </t>
+                    </div>
+                    <!-- Description -->
+                    <div id="o_wevent_event_main_col">
+                        <t t-call="website.record_cover">
+                            <t t-set="_record" t-value="event"/>
+                            <t t-set="use_filters" t-value="True"/>
+                            <t t-set="use_size" t-value="False"/>
+                            <t t-set="use_text_align" t-value="True"/>
+                            <div class="container d-flex flex-column flex-grow-1 justify-content-around">
+                                <div class="o_wevent_event_title p-3 my-5">
+                                    <span t-if="event.is_participating" class="badge text-bg-success o_wevent_badge"><i class="fa fa-check me-2"/>Registered</span>
+                                    <h1 t-field="event.name" class="o_wevent_event_name" itemprop="name" placeholder="Event Title"/>
+                                    <h2 t-field="event.subtitle" class="o_wevent_event_subtitle" placeholder="Event Subtitle"/>
+                                </div>
+                            </div>
+                        </t>
+                        <div class="mt-4" t-field="event.description" itemprop="description"/>
+                    </div>
+                </div>
+                    <!-- Sidebar -->
+                    <div class="d-lg-flex justify-content-end col-lg-4 col-xl-3 mb-3 mb-lg-0 d-print-none">
+                        <div class="mt-3">
+                            <!-- Tickets Desktop -->
+                            <div class="container d-none d-lg-block">
+                                <t t-call="website_event.registration_template"/>
+                            </div>
+                            <!-- Date & Time -->
+                            <div class="o_wevent_sidebar_block border-bottom pb-3 my-3">
+                                <h6 class="o_wevent_sidebar_title">Date &amp; Time</h6>
+                                <div class="d-flex">
+                                    <h6 t-field="event.date_begin" class="my-1" t-options="{'tz_name': event.date_tz, 'format': 'full', 'date_only': 'true'}" t-att-datetime="event.date_begin"/>
+                                </div>
+                                <t t-if="not event.is_one_day">Start -</t>
+                                <span t-out="event.date_begin" t-options="{'widget': 'datetime', 'tz_name': event.date_tz, 'time_only': 'true', 'format': 'short'}"/>
+                                <t t-if="event.is_one_day">
+                                    <i class="fa fa-long-arrow-right mx-1"/>
+                                </t>
+                                <t t-else="">
+                                    (<span t-out="event.date_tz"/>)
+                                    <i class="fa fa-long-arrow-down d-block text-muted mx-3 my-2" style="font-size: 1.5rem"/>
+                                    <div class="d-flex">
+                                        <h6 t-field="event.date_end" class="my-1" t-options="{'tz_name': event.date_tz, 'format': 'full', 'date_only': 'true'}"/>
+                                    </div>
+                                    <t t-if="not event.is_one_day">End -</t>
+                                </t>
+                                <span t-if="not event.is_one_day" t-out="event.date_end" t-options="{'widget': 'datetime', 'tz_name': event.date_tz, 'time_only': 'true', 'format': 'short'}"/>
+                                <span t-else="" t-field="event.date_end" t-options="{'tz_name': event.date_tz, 'time_only': 'true', 'format': 'short'}" t-att-datetime="event.date_end"/>
+                                (<span t-out="event.date_tz"/>)
+
+                                <a href="#" role="button" data-bs-toggle="dropdown" class="btn btn-secondary text-bg-secondary dropdown w-100 mt-3">
+                                    <p class="mb-0"><i class="fa fa-calendar me-2"/>Add to Calendar</p>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a t-att-href="iCal_url" class="dropdown-item">iCal/Outlook</a>
+                                    <a t-att-href="google_url" class="dropdown-item" target="_blank">Google</a>
+                                </div>
+                            </div>
+                            <!-- Location -->
+                            <div t-if="event.address_id" class="o_wevent_sidebar_block border-bottom pb-3 mb-3">
+                                <h6 class="o_wevent_sidebar_title">Location</h6>
+                                <h4 t-field="event.address_id" class="font-sans-serif mt-0 mb-1" style="font-size: 1rem" t-options="{                                     &quot;widget&quot;: &quot;contact&quot;,                                     &quot;fields&quot;: [&quot;name&quot;]                                 }"/>
+                                <div itemprop="location" class="mb-2 small" t-field="event.address_id" t-options="{                                     &quot;widget&quot;: &quot;contact&quot;,                                     &quot;fields&quot;: [&quot;address&quot;],                                     &quot;no_marker&quot;: True                                 }"/>
+                                <div class="mb-2 small" t-field="event.address_id" t-options="{                                     &quot;widget&quot;: &quot;contact&quot;,                                     &quot;fields&quot;: [&quot;phone&quot;, &quot;mobile&quot;, &quot;email&quot;]                                 }"/>
+                                <a t-att-href="event._google_map_link()" target="_blank" class="btn btn-secondary text-bg-secondary w-100">
+                                    <p class="mb-0"><i class="fa fa-map-marker fa-fw" role="img"/>Get the direction</p>
+                                </a>
+                            </div>
+                            <!-- Organizer -->
+                            <div t-if="event.organizer_id" class="o_wevent_sidebar_block border-bottom pb-3 mb-3">
+                                <h6 class="o_wevent_sidebar_title">Organizer</h6>
+                                <h4 t-field="event.organizer_id" class="font-sans-serif mt-0 mb-1" style="font-size: 1rem"/>
+                                <div class="small" itemprop="location" t-field="event.organizer_id" t-options="{'widget': 'contact', 'fields': ['phone', 'mobile', 'email']}"/>
+                            </div>
+                            <!-- Social -->
+                            <div class="o_wevent_sidebar_block">
+                                <h6 class="o_wevent_sidebar_title">Share</h6>
+                                <p>Find out what people see and say about this event, and join the conversation.</p>
+                                <t t-snippet-call="website.s_share">
+                                    <t t-set="_no_title" t-value="True"/>
+                                    <t t-set="_classes" t-valuef="o_wevent_sidebar_social mx-n1"/>
+                                    <t t-set="_link_classes" t-valuef="o_wevent_social_link"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <t t-call="website_event.modal_ticket_registration"/>
+    </t>
+</t>
